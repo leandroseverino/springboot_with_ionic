@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.maxigenios.domain.Categoria;
 import br.com.maxigenios.services.CategoriaService;
 
 @RestController
@@ -18,7 +19,8 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok().body(service.findById(id));
+		Categoria obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
 	}
 
 }

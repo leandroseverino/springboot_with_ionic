@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.maxigenios.domain.Categoria;
 import br.com.maxigenios.repositories.CategoriaRepository;
+import br.com.maxigenios.services.exceptions.ObjectNotFoundException;
+
 
 @Service
 public class CategoriaService {
@@ -13,7 +15,11 @@ public class CategoriaService {
 	private CategoriaRepository repository;
 	
 	public Categoria findById(Integer id) {
-		return repository.findOne(id);
+		Categoria obj = repository.findOne(id);
+		if (obj == null ) {
+			throw new ObjectNotFoundException("Categoria não encontrada ! Id: " + id + ", Tipo: " + Categoria.class.getName());
+		}
+		return obj;
 	}
 
 }
