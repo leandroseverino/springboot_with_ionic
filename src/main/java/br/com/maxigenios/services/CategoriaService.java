@@ -1,5 +1,7 @@
 package br.com.maxigenios.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,10 @@ public class CategoriaService {
 
 	@Autowired
 	private CategoriaRepository repository;
+	
+	public List<Categoria> findAll() {
+		return repository.findAll();
+	}
 	
 	public Categoria findById(Integer id) {
 		Categoria obj = repository.findOne(id);
