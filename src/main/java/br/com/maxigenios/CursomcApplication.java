@@ -13,6 +13,7 @@ import br.com.maxigenios.domain.Cidade;
 import br.com.maxigenios.domain.Cliente;
 import br.com.maxigenios.domain.Endereco;
 import br.com.maxigenios.domain.Estado;
+import br.com.maxigenios.domain.ItemPedido;
 import br.com.maxigenios.domain.Pagamento;
 import br.com.maxigenios.domain.PagamentoComBoleto;
 import br.com.maxigenios.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import br.com.maxigenios.repositories.CidadeRepository;
 import br.com.maxigenios.repositories.ClienteRepository;
 import br.com.maxigenios.repositories.EnderecoRepository;
 import br.com.maxigenios.repositories.EstadoRepository;
+import br.com.maxigenios.repositories.ItemPedidoRepository;
 import br.com.maxigenios.repositories.PagamentoRepository;
 import br.com.maxigenios.repositories.PedidoRepository;
 import br.com.maxigenios.repositories.ProdutoRepository;
@@ -46,6 +48,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
@@ -109,10 +113,21 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 		
-		
 		pedidoRepository.save(Arrays.asList(ped1, ped2));
 		pagamentoRepository.save(Arrays.asList(pagto1, pagto1));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
 		
 		
 
