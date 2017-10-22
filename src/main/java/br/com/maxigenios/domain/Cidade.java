@@ -31,7 +31,6 @@ public class Cidade implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="estado_id")
 	private Estado estado;
@@ -68,15 +67,6 @@ public class Cidade implements Serializable {
 		this.estado = estado;
 	}
 	
-	
-//	public void setProdutos(List<Produto> produtos) {
-//		this.produtos = produtos;
-//	}
-//	
-//	public List<Produto> getProdutos() {
-//		return produtos;
-//	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
