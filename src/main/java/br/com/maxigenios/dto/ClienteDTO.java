@@ -1,5 +1,4 @@
 package br.com.maxigenios.dto;
-
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Email;
@@ -7,7 +6,9 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.maxigenios.domain.Cliente;
+import br.com.maxigenios.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
