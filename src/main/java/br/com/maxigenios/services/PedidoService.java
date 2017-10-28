@@ -9,6 +9,7 @@ import br.com.maxigenios.domain.ItemPedido;
 import br.com.maxigenios.domain.PagamentoComBoleto;
 import br.com.maxigenios.domain.Pedido;
 import br.com.maxigenios.domain.enums.EstadoPagamento;
+import br.com.maxigenios.repositories.ClienteRepository;
 import br.com.maxigenios.repositories.ItemPedidoRepository;
 import br.com.maxigenios.repositories.PagamentoRepository;
 import br.com.maxigenios.repositories.PedidoRepository;
@@ -34,6 +35,9 @@ public class PedidoService {
 	@Autowired
 	private BoletoService boletoService;
 	
+	@Autowired
+	private ClienteRepository repositoryCliente;
+	
 	public Pedido findById(Integer id) {
 		Pedido obj = repository.findOne(id);
 		if (obj == null ) {
@@ -44,6 +48,7 @@ public class PedidoService {
 	
 	public Pedido insert(Pedido pedido) {
 		pedido.setId(null);
+		pedido.setCliente(repositoryCliente.findOne(pedido.getCliente().getId()));
 		pedido.setInstante(new Date());
 		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		pedido.getPagamento().setPedido(pedido);
@@ -57,11 +62,14 @@ public class PedidoService {
 		
 		for (ItemPedido itemPedido : pedido.getItens()) {
 			itemPedido.setDesconto(0.0);
-			itemPedido.setPreco(repositoryProduto.findOne(itemPedido.getProduto().getId()).getPreco());
+			itemPedido.setProduto(repositoryProduto.findOne(itemPedido.getProduto().getId()));
+			itemPedido.setPreco(itemPedido.getProduto().getPreco());
 			itemPedido.setPedido(pedido);
 		}
 		
 		repositoryItemPedido.save(pedido.getItens());
+		
+		System.out.println(pedido);
 		
 		return pedido;
 	}
