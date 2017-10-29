@@ -2,6 +2,9 @@ package br.com.maxigenios.services;
 
 import java.util.List;
 
+import br.com.maxigenios.domain.enums.Perfil;
+import br.com.maxigenios.security.UserSS;
+import br.com.maxigenios.services.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -39,6 +42,13 @@ public class ClienteService {
 	private BCryptPasswordEncoder pwdEnconder;
 	
 	public Cliente findById(Integer id) {
+
+        UserSS userSS = UserService.authenticated();
+
+        if (userSS == null || ! userSS.hasRole(Perfil.ADMIN) && !id.equals(userSS.getId())) {
+            throw new AuthorizationException("Acesso negado !");
+        }
+
 		Cliente obj = repository.findOne(id);
 		if (obj == null ) {
 			throw new ObjectNotFoundException("Cliente não encontrado ! Id: " + id + ", Tipo: " + Cliente.class.getName());
