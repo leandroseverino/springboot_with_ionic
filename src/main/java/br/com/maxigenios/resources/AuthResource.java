@@ -2,8 +2,10 @@ package br.com.maxigenios.resources;
 
 import br.com.maxigenios.domain.Categoria;
 import br.com.maxigenios.dto.CategoriaDTO;
+import br.com.maxigenios.dto.EmailDTO;
 import br.com.maxigenios.security.JWTUtil;
 import br.com.maxigenios.security.UserSS;
+import br.com.maxigenios.services.AuthService;
 import br.com.maxigenios.services.CategoriaService;
 import br.com.maxigenios.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +28,20 @@ public class AuthResource {
     @Autowired
     private JWTUtil jwtUtil;
 
+    @Autowired
+    private AuthService service;
+
     @RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
         UserSS user = UserService.authenticated();
         String token = jwtUtil.generateToken(user.getUsername());
         response.addHeader("Authorization", "Bearer " + token);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
+    public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO objDTO) {
+        service.sendNewPassword(objDTO.getEmail());
         return ResponseEntity.noContent().build();
     }
 
