@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import br.com.maxigenios.domain.enums.Perfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -116,14 +117,20 @@ public class DBService {
 		
 		Cliente cli1 = new Cliente(null, "Maria Silva", "leandro@professionalit.com.br", "99999999999", TipoCliente.PESSOAFISICA, pwdEnconder.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("273633323", "98383399"));
-		
+
+		Cliente cli2 = new Cliente(null, "Ana Costa", "lseverino@gmail.com", "91820995020", TipoCliente.PESSOAFISICA, pwdEnconder.encode("123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("30303443", "93903511"));
+
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
-		
+		Endereco e3 = new Endereco(null, "Rua das Dores", "80", "Casa 80", "Centro", "38777000", cli2, c2);
+
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
-		clienteRepository.save(cli1);
-		enderecoRepository.save(Arrays.asList(e1, e2));
+		clienteRepository.save(Arrays.asList(cli1, cli2));
+		enderecoRepository.save(Arrays.asList(e1, e2, e3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);

@@ -13,4 +13,8 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception { }
+
+	private void testeLeandro(){
+		System.out.println("LEandro");
+	}
 }

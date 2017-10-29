@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] READONLY_MATCHERS = {
 			"/produto/**",
-			"/categoria/**"
+			"/categoria/**",
+			"/cliente/**"
 	};
 
 	@Override
