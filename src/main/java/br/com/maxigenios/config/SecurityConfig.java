@@ -3,6 +3,7 @@ package br.com.maxigenios.config;
 import java.util.Arrays;
 
 import br.com.maxigenios.security.JWTAuthenticationFilter;
+import br.com.maxigenios.security.JWTAuthorizationFilter;
 import br.com.maxigenios.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -58,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated();
 
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
